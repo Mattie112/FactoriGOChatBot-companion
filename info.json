@@ -1,0 +1,10 @@
+{
+  "name": "FactorioChatBot-companion",
+  "version": "0.1.0",
+  "title": "A companion mod for the Discord bot: FactorioChatBot",
+  "author": "Mattie112",
+  "factorio_version": "1.1",
+  "dependencies": ["base >= 1.1"],
+  "description": "This is a companion mod for https://github.com/AGuyNamedJens/FactorioChatBot",
+  "homepage": "https://github.com/Mattie112/FactorioChatBot-companion"
+}
