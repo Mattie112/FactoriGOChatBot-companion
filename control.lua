@@ -7,12 +7,12 @@ local function log_message(msg)
 end
 
 script.on_event(defines.events.on_research_finished, function(event)
-    local research_name = event.research.localised_name
+    local research_name = event.research.name
     log_message("[RESEARCH_FINISHED:" .. research_name .. "]")
 end)
 
 script.on_event(defines.events.on_research_started, function(event)
-    local research_name = event.research.localised_name
+    local research_name = event.research.name
     log_message("[RESEARCH_STARTED:" .. research_name .. "]")
 end)
 
