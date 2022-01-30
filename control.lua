@@ -1,9 +1,6 @@
 local baseFolder = "factorigo-chat-bot/";
 local baseFile = "factorigo-chat-bot.log"
 
--- Start with cleaning the logfile of a previous run
-game.write_file(baseFolder .. baseFile, "", false)
-
 local function log_message(msg)
     msg = game.tick .. " " .. msg
     game.write_file(baseFolder .. baseFile, "[FactoriGOChatBot]: " .. serpent.line(msg, { comment = false }), true)
