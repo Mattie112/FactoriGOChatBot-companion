@@ -38,6 +38,13 @@ script.on_event(
     function(event)
         local player_index = event.player_index
         local player_name = game.get_player(player_index).name
-        log_message("[PLAYER_DIED:" .. player_name .. "]")
+        local cause = event.cause
+        if event.cause
+        then
+            cause = event.cause.name
+        else
+            cause = ""
+        end
+        log_message("[PLAYER_DIED:" .. player_name .. ":" .. cause .. "]")
     end
 )
