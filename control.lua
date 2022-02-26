@@ -36,9 +36,13 @@ script.on_event(
 local function getAndStoreDeathCount(player_name, cause)
     global.playerDeathCount = global.playerDeathCount or {}
     global.playerDeathCount[player_name] = global.playerDeathCount[player_name] or {}
+    
     global.playerDeathCount[player_name][cause] = global.playerDeathCount[player_name][cause] or 0
+    global.playerDeathCount[player_name][cause] = global.playerDeathCount[player_name][cause] + 1
+
     global.playerDeathCount[player_name]["total"] = global.playerDeathCount[player_name]["total"] or 0
     global.playerDeathCount[player_name]["total"] = global.playerDeathCount[player_name]["total"] + 1
+
     return global.playerDeathCount[player_name][cause], global.playerDeathCount[player_name]["total"]
 end
 
