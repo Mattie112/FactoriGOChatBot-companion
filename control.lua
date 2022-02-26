@@ -33,18 +33,40 @@ script.on_event(
     end
 )
 
+local function getAndStoreDeathCount(player_name, cause)
+    global.playerDeathCount = global.playerDeathCount or {}
+    global.playerDeathCount[player_name] = global.playerDeathCount[player_name] or {}
+    global.playerDeathCount[player_name][cause] = global.playerDeathCount[player_name][cause] or 0
+    global.playerDeathCount[player_name]["total"] = global.playerDeathCount[player_name]["total"] or 0
+    global.playerDeathCount[player_name]["total"] = global.playerDeathCount[player_name]["total"] + 1
+    return global.playerDeathCount[player_name][cause], global.playerDeathCount[player_name]["total"]
+end
+
 script.on_event(
     defines.events.on_player_died,
     function(event)
         local player_index = event.player_index
         local player_name = game.get_player(player_index).name
         local cause = event.cause
-        if event.cause
-        then
+        if event.cause then
             cause = event.cause.name
         else
             cause = ""
         end
-        log_message("[PLAYER_DIED:" .. player_name .. ":" .. cause .. "]")
+
+        if cause == "character" then
+            log_message("test_event_cause_player_name:" .. event.cause.player.name)
+        end
+
+        local count, total = getAndStoreDeathCount(player_name, cause)
+
+        log_message("[PLAYER_DIED:" .. player_name .. ":" .. cause .. ":" .. count .. ":" .. total .. "]")
     end
 )
+
+local function initStorage()
+    global.playerDeathCount = global.playerDeathCount or {}
+end
+
+-- Run this on startup
+script.on_init(initStorage)
