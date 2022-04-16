@@ -29,14 +29,16 @@ script.on_event(
 script.on_event(
     defines.events.on_rocket_launched,
     function(event)
-        log_message("[ROCKET_LAUNCHED]")
+        global.rocketLaunched = global.rocketLaunched or 0
+        global.rocketLaunched = global.rocketLaunched + 1
+        log_message("[ROCKET_LAUNCHED:" .. global.rocketLaunched .. "]")
     end
 )
 
 local function getAndStoreDeathCount(player_name, cause)
     global.playerDeathCount = global.playerDeathCount or {}
     global.playerDeathCount[player_name] = global.playerDeathCount[player_name] or {}
-    
+
     global.playerDeathCount[player_name][cause] = global.playerDeathCount[player_name][cause] or 0
     global.playerDeathCount[player_name][cause] = global.playerDeathCount[player_name][cause] + 1
 
@@ -59,7 +61,7 @@ script.on_event(
         end
 
         if cause == "character" then
-            log_message("test_event_cause_player_name:" .. event.cause.player.name)
+            cause = event.cause.player.name
         end
 
         local count, total = getAndStoreDeathCount(player_name, cause)
@@ -70,6 +72,7 @@ script.on_event(
 
 local function initStorage()
     global.playerDeathCount = global.playerDeathCount or {}
+    global.rocketLaunched = 0
 end
 
 -- Run this on startup
