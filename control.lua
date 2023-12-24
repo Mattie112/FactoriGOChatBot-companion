@@ -49,7 +49,7 @@ local function getAndStoreDeathCount(player_name, cause)
 end
 
 script.on_event(
-    defines.events.on_player_died,
+    defines.events.on_pre_player_died,
     function(event)
         local player_index = event.player_index
         local player_name = game.get_player(player_index).name
@@ -72,7 +72,7 @@ script.on_event(
 
 local function initStorage()
     global.playerDeathCount = global.playerDeathCount or {}
-    global.rocketLaunched = 0
+    global.rocketLaunched = global.playerDeathCount or 0
 end
 
 -- Run this on startup
