@@ -72,7 +72,7 @@ script.on_event(
 
 local function initStorage()
     global.playerDeathCount = global.playerDeathCount or {}
-    global.rocketLaunched = global.playerDeathCount or 0
+    global.rocketLaunched = global.rocketLaunched or 0
 end
 
 -- Run this on startup
