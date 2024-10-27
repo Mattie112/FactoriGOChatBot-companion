@@ -3,7 +3,7 @@ local baseFile = "factorigo-chat-bot.log"
 
 local function log_message(msg)
     msg = game.tick .. " " .. msg
-    game.write_file(
+    helpers.write_file(
         baseFolder .. baseFile,
         "[FactoriGOChatBot]: " .. serpent.line(msg, {comment = false}) .. "\n",
         true
@@ -29,23 +29,23 @@ script.on_event(
 script.on_event(
     defines.events.on_rocket_launched,
     function(event)
-        global.rocketLaunched = global.rocketLaunched or 0
-        global.rocketLaunched = global.rocketLaunched + 1
-        log_message("[ROCKET_LAUNCHED:" .. global.rocketLaunched .. "]")
+        storage.rocketLaunched = storage.rocketLaunched or 0
+        storage.rocketLaunched = storage.rocketLaunched + 1
+        log_message("[ROCKET_LAUNCHED:" .. storage.rocketLaunched .. "]")
     end
 )
 
 local function getAndStoreDeathCount(player_name, cause)
-    global.playerDeathCount = global.playerDeathCount or {}
-    global.playerDeathCount[player_name] = global.playerDeathCount[player_name] or {}
+    storage.playerDeathCount = storage.playerDeathCount or {}
+    storage.playerDeathCount[player_name] = storage.playerDeathCount[player_name] or {}
 
-    global.playerDeathCount[player_name][cause] = global.playerDeathCount[player_name][cause] or 0
-    global.playerDeathCount[player_name][cause] = global.playerDeathCount[player_name][cause] + 1
+    storage.playerDeathCount[player_name][cause] = storage.playerDeathCount[player_name][cause] or 0
+    storage.playerDeathCount[player_name][cause] = storage.playerDeathCount[player_name][cause] + 1
 
-    global.playerDeathCount[player_name]["total"] = global.playerDeathCount[player_name]["total"] or 0
-    global.playerDeathCount[player_name]["total"] = global.playerDeathCount[player_name]["total"] + 1
+    storage.playerDeathCount[player_name]["total"] = storage.playerDeathCount[player_name]["total"] or 0
+    storage.playerDeathCount[player_name]["total"] = storage.playerDeathCount[player_name]["total"] + 1
 
-    return global.playerDeathCount[player_name][cause], global.playerDeathCount[player_name]["total"]
+    return storage.playerDeathCount[player_name][cause], storage.playerDeathCount[player_name]["total"]
 end
 
 script.on_event(
@@ -54,25 +54,24 @@ script.on_event(
         local player_index = event.player_index
         local player_name = game.get_player(player_index).name
         local cause = event.cause
+        local causeText = ""
         if event.cause then
-            cause = event.cause.name
-        else
-            cause = ""
+            causeText = event.cause.name
         end
 
-        if cause == "character" then
-            cause = event.cause.player.name
+        if causeText == "character" then
+            causeText = event.cause.player.name
         end
 
-        local count, total = getAndStoreDeathCount(player_name, cause)
+        local count, total = getAndStoreDeathCount(player_name, causeText)
 
-        log_message("[PLAYER_DIED:" .. player_name .. ":" .. cause .. ":" .. count .. ":" .. total .. "]")
+        log_message("[PLAYER_DIED:" .. player_name .. ":" .. causeText .. ":" .. count .. ":" .. total .. "]")
     end
 )
 
 local function initStorage()
-    global.playerDeathCount = global.playerDeathCount or {}
-    global.rocketLaunched = global.rocketLaunched or 0
+    storage.playerDeathCount = storage.playerDeathCount or {}
+    storage.rocketLaunched = storage.rocketLaunched or 0
 end
 
 -- Run this on startup
